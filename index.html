@@ -2,8 +2,9 @@
 
 <head>
         <style>
-                h5 {
+                h3 {
                         display: inline;
+                        font-size: 2em;
                 }
 
                 #panel {
@@ -13,26 +14,27 @@
                         right: 0;
                         background-color: black;
                         color: white;
-                        height: 20px;
+                        height: 1cm;
                 }
                 #controls{
                         position: fixed;
                         bottom: 0;
                         left: 0;
                         right: 0;
-                        height: 30px;
+                        height: 1.6cm;
                         display: flex;
                         justify-content: space-around;
                 }
 
                 #controls button{
                         width: 80px;
+                        height: 1.5cm;
                 }
 
                 #main{
                         position: fixed;
-                        top: 20px;
-                        bottom: 30px;
+                        top: 1cm;
+                        bottom: 1.65cm;
                         left: 0;
                         right: 0;
                         background-color: blueviolet;
@@ -53,7 +55,7 @@
 <!-- <body onmousemove="onMouseMove(event)" onkeydown="onKeyDown(event)"> -->
 <body onkeydown="onKeyDown(event)">
         <div id="panel">
-                <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Score : </h5>&nbsp;<h5 id="score">0</h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h5>Level : </h5><h5 id="lvl">I</h5>
+                <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Score : </h3>&nbsp;<h3 id="score">0</h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Level : </h3><h3 id="lvl">I</h3>
         </div>
         <div id="main">
                 <div id="one"></div>
