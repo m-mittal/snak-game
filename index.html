@@ -1,0 +1,328 @@
+<html>
+
+<head>
+        <style>
+                h5 {
+                        display: inline;
+                }
+
+                #panel {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        background-color: black;
+                        color: white;
+                        height: 20px;
+                }
+                #controls{
+                        position: fixed;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        height: 30px;
+                        display: flex;
+                        justify-content: space-around;
+                }
+
+                #controls button{
+                        width: 80px;
+                }
+
+                #main{
+                        position: fixed;
+                        top: 20px;
+                        bottom: 30px;
+                        left: 0;
+                        right: 0;
+                        background-color: blueviolet;
+                        border: 2px solid red;
+                }
+                #one {
+                        background-image: url("./drogo.png");
+                        background-size: contain;
+                }
+
+                #pivot {
+                        background-image: url("./egg.png");
+                        background-size: contain;
+                }
+        </style>
+</head>
+
+<!-- <body onmousemove="onMouseMove(event)" onkeydown="onKeyDown(event)"> -->
+<body onkeydown="onKeyDown(event)">
+        <div id="panel">
+                <h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Score : </h5>&nbsp;<h5 id="score">0</h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h5>Level : </h5><h5 id="lvl">I</h5>
+        </div>
+        <div id="main">
+                <div id="one"></div>
+                <div id="pivot"></div>
+        </div>
+        <div id="controls">
+                <button onclick="dirClick('top')">Top</button>
+                <button onclick="dirClick('left')">Left</button>
+                <button onclick="dirClick('right')">Right</button>
+                <button onclick="dirClick('bottom')">Bottom</button>
+        </div>
+
+
+        <script>
+                var shortestPath = 0, score = 0, level = "I";
+                var lvl_config = {
+                        "I" : 250,
+                        "II" : 150,
+                        "III" : 100,
+                        "IV" : 60,
+                        "V" : 20
+                }
+                function generatePivot() {
+                        var maxX = window.document.noOfCols, minX = 1, maxY = window.document.noOfRows, minY = 1;
+                        var randX = Math.random() * (+maxX - +minX) + +minX;
+                        var randY = Math.random() * (+maxY - +minY) + +minY;
+                        /* console.log("Pivot position = ", randX, randY); */
+                        var pivot = document.getElementById("pivot");
+                        pivot.style.gridColumnStart = Math.floor(randX);
+                        pivot.style.gridRowStart = Math.floor(randY);
+                        window.document.pivotX = pivot.style.gridColumnStart;
+                        window.document.pivotY = pivot.style.gridRowStart;
+                        /* pivot.style.backgroundColor = "red"; */
+                        getPathLength();
+                }
+
+                !function () {
+                        //var elem = document.getElementsByTagName("body")[0];
+                        var elem = document.getElementById("main");
+                        elem.style.display = "grid";
+                        //var x = window.document.body.clientWidth;
+                        var x = elem.clientWidth;
+                        //var y = window.document.body.clientHeight;
+                        var y = elem.clientHeight;
+                        var noOfCols = Math.floor((x) / 50);
+                        var noOfRows = Math.floor((y) / 50);
+                        /* console.log("width = " + x, "  height = " + y, "  noOfCols = " + noOfCols, "noOfRows = " + noOfRows); */
+                        elem.style["grid-template-columns"] = 'repeat(' + noOfCols + ', 50px)';
+                        elem.style["grid-template-rows"] = 'repeat(' + noOfRows + ', 50px)';
+                        window.document.noOfCols = noOfCols;
+                        window.document.noOfRows = noOfRows;
+
+                        var one = document.getElementById("one");
+                        one.style.gridColumnStart = Math.floor(noOfCols /2) + 1;
+                        one.style.gridColumnEnd = Math.floor(noOfCols /2) + 2;
+                        one.style.gridRowStart = Math.floor(noOfRows / 2) + 1;
+                        one.style.gridRowEnd = Math.floor(noOfRows / 2) + 2;
+
+                        generatePivot();
+
+                }();
+
+/*                 function onMouseMove(e) {
+                        var x = e.clientX;
+                        var y = e.clientY;
+                        var currColStart = Math.floor(x / 50) + 1;
+                        var currColEnd = currColStart + 1;
+                        var currRowStart = Math.floor(y / 50) + 1;
+                        var currRowEnd = currRowStart + 1;
+
+                        var one = document.getElementById("one");
+                        one.style.gridColumnStart = currColStart;
+                        one.style.gridColumnEnd = currColEnd;
+                        one.style.gridRowStart = currRowStart;
+                        one.style.gridRowEnd = currRowEnd;
+                        one.style.backgroundImage = url("./drogo.png");
+                        one.style.backgroundColor = "grey";
+                } */
+
+                function getScore(stepsMoved) {
+                        var dflt = 100, diff = 0;
+                        stepsMoved >= shortestPath ? diff = stepsMoved - shortestPath : 0;
+                        var prgrss = dflt - (diff * 10);
+                        prgrss >= 0 ? score = score + prgrss : "";
+                        if(score > 500 && score <= 1000){
+                                level = "II";
+                                document.getElementById("lvl").innerText = level;
+                        }else if(score > 1000 && score <= 1500){
+                                level = "III";
+                                document.getElementById("lvl").innerText = level;
+                        }else if(score > 1500  && score <= 2000){
+                                level = "IV";
+                                document.getElementById("lvl").innerText = level;
+                        }else if(score > 2000){
+                                level = "V";
+                                document.getElementById("lvl").innerText = level;
+                        }
+/*                         switch(score){
+                                //console.log(">>>>>>>>>>>>>>>>>>>> ", score);
+                                case score > 600:
+                                console.log(">>>>>>>>>>>>>>>>>>>> ", score);
+                                        
+                                        break;
+                                case score > 1000:
+                                        
+                                        break;
+                                case score > 1500:
+                                        
+                                        break;
+                        } */
+                        /* console.log("///// progress ////  stepsMoved = " + stepsMoved + "  shortestPath = " + shortestPath + "  progress = " + prgrss + "  score = " + score); */
+                        return score;
+                }
+
+                function checkCollision() {
+                        var one = document.getElementById("one");
+                        var currX = one.style.gridColumnStart;
+                        var currY = one.style.gridRowStart;
+                        var pivotX = window.document.pivotX;
+                        var pivotY = window.document.pivotY;
+                        if (currX == pivotX && currY == pivotY) {
+                                document.getElementById("pivot").style.opacity = 0.5;
+                                return true;
+                        } else {
+                                document.getElementById("pivot").style.opacity = 1;
+                                return false;
+                        }
+                }
+
+                var id = "";
+                var stepsMoved = 0;
+                var xxxx = 200;
+                function move() {
+                        id = setInterval(function () {
+                                var one = document.getElementById("one");
+                                var panel_score = document.getElementById("score");
+                                if (checkCollision()) {
+                                        /* console.log("Collided"); */
+                                        score = getScore(stepsMoved);
+                                        panel_score.innerText = score;
+                                        stepsMoved = 0;
+                                        generatePivot();
+                                } else {
+                                        ++stepsMoved;
+                                }
+                                var currColStart = one.style.gridColumnStart;
+                                var currRowStart = one.style.gridRowStart;
+                                switch (window.document.dirctn) {
+                                        case "Down":
+                                                var down = parseInt(currRowStart);
+                                                one.style.gridRowStart = down == window.document.noOfRows ? 1 : down + 1;
+                                                one.style.gridRowEnd = down == window.document.noOfRows ? 2 : down + 2;
+                                                break;
+                                        case "Right":
+                                                var right = parseInt(currColStart);
+                                                one.style.gridColumnStart = right == window.document.noOfCols ? 1 : right + 1;
+                                                one.style.gridColumnEnd = right == window.document.noOfCols ? 2 : right + 2;
+                                                break;
+                                        case "Left":
+                                                var left = parseInt(currColStart);
+                                                one.style.gridColumnStart = left == 1 ? window.document.noOfCols : left - 1;
+                                                one.style.gridColumnEnd = left == 1 ? window.document.noOfCols + 1 : left;
+                                                break;
+                                        case "Up":
+                                                var up = parseInt(currRowStart);
+                                                one.style.gridRowStart = up == 1 ? window.document.noOfRows : up - 1;
+                                                one.style.gridRowEnd = up == 1 ? window.document.noOfRows + 1 : up;
+                                                break;
+                                        default:
+                                                console.log(window.document.dirctn);
+                                }
+                        }, lvl_config[level]);
+                }
+
+                function dirClick(dir){
+                        var one = document.getElementById("one");
+                        var currColStart = one.style.gridColumnStart;
+                        var currRowStart = one.style.gridRowStart;
+                        switch (dir) {
+                                case "bottom":
+                                        if (window.document.dirctn != "Up") {
+                                                window.document.dirctn = "Down";
+                                                clearInterval(id);
+                                                move();
+                                        }
+                                        break;
+                                case "right":
+                                        if (window.document.dirctn != "Left") {
+                                                window.document.dirctn = "Right";
+                                                clearInterval(id);
+                                                move();
+                                        }
+                                        break;
+                                case "left":
+                                        if (window.document.dirctn != "Right") {
+                                                window.document.dirctn = "Left";
+                                                clearInterval(id);
+                                                move();
+                                        }
+                                        break;
+                                case "top":
+                                        if (window.document.dirctn != "Down") {
+                                                window.document.dirctn = "Up";
+                                                clearInterval(id);
+                                                move();
+                                        }
+                                        break;
+                                default:
+                                        console.log(dir);
+                        }
+                }
+
+                function onKeyDown(e) {
+                        var one = document.getElementById("one");
+                        var currColStart = one.style.gridColumnStart;
+                        var currRowStart = one.style.gridRowStart;
+                        switch (e.key) {
+                                case "ArrowDown":
+                                        if (window.document.dirctn != "Up") {
+                                                window.document.dirctn = "Down";
+                                                clearInterval(id);
+                                                move();
+                                        }
+                                        break;
+                                case "ArrowRight":
+                                        if (window.document.dirctn != "Left") {
+                                                window.document.dirctn = "Right";
+                                                clearInterval(id);
+                                                move();
+                                        }
+                                        break;
+                                case "ArrowLeft":
+                                        if (window.document.dirctn != "Right") {
+                                                window.document.dirctn = "Left";
+                                                clearInterval(id);
+                                                move();
+                                        }
+                                        break;
+                                case "ArrowUp":
+                                        if (window.document.dirctn != "Down") {
+                                                window.document.dirctn = "Up";
+                                                clearInterval(id);
+                                                move();
+                                        }
+                                        break;
+                                default:
+                                        /*                                         setInterval(
+                                                                                        generatePivot,
+                                                                                        1000
+                                                                                ) */
+                                        /* generatePivot(); */
+                                        console.log(e.key);
+                        }
+                }
+
+                function getPathLength() {
+                        var one = document.getElementById("one");
+                        var currX = parseInt(one.style.gridColumnStart);
+                        var currY = parseInt(one.style.gridRowStart);
+                        var pivotX = parseInt(window.document.pivotX);
+                        var pivotY = parseInt(window.document.pivotY);
+                        var lnX = 100, lnY = 100;
+                        currX < pivotX ? lnX = pivotX - currX : lnX = currX - pivotX;
+                        currY < pivotY ? lnY = pivotY - currY : lnY = currY - pivotY;
+                        shortestPath = lnX + lnY;
+                        /* console.log("&&&&&&&&&&&  currX = " + currX + "  pivotX = " + pivotX + "  currY = " + currY + "  pivotY = " + pivotY + "  lnX = " + lnX + "  lnY = " + lnY); */
+                        return shortestPath;
+                }
+        </script>
+</body>
+
+</html>
