@@ -7,6 +7,10 @@
                         font-size: 2em;
                 }
 
+                body{
+                        text-align: center;
+                }
+
                 #panel {
                         position: fixed;
                         top: 0;
@@ -16,7 +20,7 @@
                         color: white;
                         height: 1cm;
                 }
-                #controls{
+/*                 #controls{
                         position: fixed;
                         bottom: 0;
                         left: 0;
@@ -29,17 +33,58 @@
                 #controls button{
                         width: 80px;
                         height: 1.5cm;
-                }
+                } */
 
                 #main{
                         position: fixed;
                         top: 1cm;
-                        bottom: 1.65cm;
+                        bottom: 0;
                         left: 0;
                         right: 0;
                         background-color: blueviolet;
-                        border: 2px solid red;
+                        border: 1px solid red;
                 }
+
+                #main #top{
+                        /* position: fixed; */
+                        /* top: 20px; */
+                        position: absolute;
+                        height: 20%;
+                        width: 100%;
+                        /* background-color: aqua; */
+                        border: 1px solid gray;
+                }
+
+                #main #left{
+                        position: absolute;
+                        top: 20%;
+                        width: 50%;
+                        display: inline;
+                        height: 60%;
+                        /* background-color:blue; */
+                        border: 1px solid gray;
+                }
+
+                #main #right{
+                        position: absolute;
+                        width: 50%;
+                        display: inline;
+                        height: 60%;
+                        top: 20%;
+                        left: 50%;
+                        /* background-color:crimson; */
+                        border: 1px solid gray;
+                }
+
+                #main #down{
+                        position: absolute;
+                        height: 20%;
+                        width: 100%;
+                        /* background-color:darkgreen; */
+                        border: 1px solid gray;
+                        top: 80%;
+                }
+
                 #one {
                         background-image: url("./drogo.png");
                         background-size: contain;
@@ -55,18 +100,22 @@
 <!-- <body onmousemove="onMouseMove(event)" onkeydown="onKeyDown(event)"> -->
 <body onkeydown="onKeyDown(event)">
         <div id="panel">
-                <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Score : </h3>&nbsp;<h3 id="score">0</h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<h3>Level : </h3><h3 id="lvl">I</h3>
+                <h3>Score : </h3>&nbsp;<h3 id="score">0</h3><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Level : </h3><h3 id="lvl">I</h3>
         </div>
         <div id="main">
                 <div id="one"></div>
                 <div id="pivot"></div>
+                <div id="top" onclick="dirClick('top')"></div>
+                <div id="left" onclick="dirClick('left')"></div>
+                <div id="right" onclick="dirClick('right')"></div>
+                <div id="down" onclick="dirClick('bottom')"></div>
         </div>
-        <div id="controls">
+<!--         <div id="controls">
                 <button onclick="dirClick('top')">Top</button>
                 <button onclick="dirClick('left')">Left</button>
                 <button onclick="dirClick('right')">Right</button>
                 <button onclick="dirClick('bottom')">Bottom</button>
-        </div>
+        </div> -->
 
 
         <script>
@@ -103,6 +152,12 @@
                         var noOfCols = Math.floor((x) / 50);
                         var noOfRows = Math.floor((y) / 50);
                         /* console.log("width = " + x, "  height = " + y, "  noOfCols = " + noOfCols, "noOfRows = " + noOfRows); */
+
+                        var padLeft = (x - ( noOfCols * 50 )) /2;
+                        var padTop = (y - ( noOfRows * 50 )) /2;
+                        elem.style.paddingLeft = padLeft;
+                        elem.style.paddingTop = padTop;
+
                         elem.style["grid-template-columns"] = 'repeat(' + noOfCols + ', 50px)';
                         elem.style["grid-template-rows"] = 'repeat(' + noOfRows + ', 50px)';
                         window.document.noOfCols = noOfCols;
