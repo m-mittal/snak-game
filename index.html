@@ -1,7 +1,10 @@
 <html>
 
 <head>
-        	<link rel="manifest" href="/manifest.json">
+        <link rel="manifest" href="/manifest.json">
+        <meta charset="utf-8">
+        <title>Snak Game</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <style>
                 h3 {
@@ -9,7 +12,7 @@
                         font-size: 2em;
                 }
 
-                body{
+                body {
                         text-align: center;
                 }
 
@@ -22,7 +25,8 @@
                         color: white;
                         height: 1cm;
                 }
-/*                 #controls{
+
+                /*                 #controls{
                         position: fixed;
                         bottom: 0;
                         left: 0;
@@ -37,7 +41,7 @@
                         height: 1.5cm;
                 } */
 
-                #main{
+                #main {
                         position: fixed;
                         top: 1cm;
                         bottom: 0;
@@ -47,7 +51,7 @@
                         border: 1px solid red;
                 }
 
-                #main #top{
+                #main #top {
                         /* position: fixed; */
                         /* top: 20px; */
                         position: absolute;
@@ -57,7 +61,7 @@
                         border: 1px solid gray;
                 }
 
-                #main #left{
+                #main #left {
                         position: absolute;
                         top: 20%;
                         width: 50%;
@@ -67,7 +71,7 @@
                         border: 1px solid gray;
                 }
 
-                #main #right{
+                #main #right {
                         position: absolute;
                         width: 50%;
                         display: inline;
@@ -78,7 +82,7 @@
                         border: 1px solid gray;
                 }
 
-                #main #down{
+                #main #down {
                         position: absolute;
                         height: 20%;
                         width: 100%;
@@ -100,9 +104,12 @@
 </head>
 
 <!-- <body onmousemove="onMouseMove(event)" onkeydown="onKeyDown(event)"> -->
+
 <body onkeydown="onKeyDown(event)">
         <div id="panel">
-                <h3>Score : </h3>&nbsp;<h3 id="score">0</h3><h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Level : </h3><h3 id="lvl">I</h3>
+                <h3>Score : </h3>&nbsp;<h3 id="score">0</h3>
+                <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Level : </h3>
+                <h3 id="lvl">I</h3>
         </div>
         <div id="main">
                 <div id="one"></div>
@@ -112,7 +119,7 @@
                 <div id="right" onclick="dirClick('right')"></div>
                 <div id="down" onclick="dirClick('bottom')"></div>
         </div>
-<!--         <div id="controls">
+        <!--         <div id="controls">
                 <button onclick="dirClick('top')">Top</button>
                 <button onclick="dirClick('left')">Left</button>
                 <button onclick="dirClick('right')">Right</button>
@@ -121,13 +128,22 @@
 
 
         <script>
+                window.onload = () => {
+                        'use strict';
+
+                        if ('serviceWorker' in navigator) {
+                                navigator.serviceWorker
+                                        .register('./serviceworker.js');
+                        }
+                }
+                
                 var shortestPath = 0, score = 0, level = "I";
                 var lvl_config = {
-                        "I" : 250,
-                        "II" : 150,
-                        "III" : 100,
-                        "IV" : 60,
-                        "V" : 20
+                        "I": 250,
+                        "II": 150,
+                        "III": 100,
+                        "IV": 60,
+                        "V": 20
                 }
                 function generatePivot() {
                         var maxX = window.document.noOfCols, minX = 1, maxY = window.document.noOfRows, minY = 1;
@@ -155,8 +171,8 @@
                         var noOfRows = Math.floor((y) / 50);
                         /* console.log("width = " + x, "  height = " + y, "  noOfCols = " + noOfCols, "noOfRows = " + noOfRows); */
 
-                        var padLeft = (x - ( noOfCols * 50 )) /2;
-                        var padTop = (y - ( noOfRows * 50 )) /2;
+                        var padLeft = (x - (noOfCols * 50)) / 2;
+                        var padTop = (y - (noOfRows * 50)) / 2;
                         elem.style.paddingLeft = padLeft;
                         elem.style.paddingTop = padTop;
 
@@ -166,8 +182,8 @@
                         window.document.noOfRows = noOfRows;
 
                         var one = document.getElementById("one");
-                        one.style.gridColumnStart = Math.floor(noOfCols /2) + 1;
-                        one.style.gridColumnEnd = Math.floor(noOfCols /2) + 2;
+                        one.style.gridColumnStart = Math.floor(noOfCols / 2) + 1;
+                        one.style.gridColumnEnd = Math.floor(noOfCols / 2) + 2;
                         one.style.gridRowStart = Math.floor(noOfRows / 2) + 1;
                         one.style.gridRowEnd = Math.floor(noOfRows / 2) + 2;
 
@@ -175,54 +191,54 @@
 
                 }();
 
-/*                 function onMouseMove(e) {
-                        var x = e.clientX;
-                        var y = e.clientY;
-                        var currColStart = Math.floor(x / 50) + 1;
-                        var currColEnd = currColStart + 1;
-                        var currRowStart = Math.floor(y / 50) + 1;
-                        var currRowEnd = currRowStart + 1;
-
-                        var one = document.getElementById("one");
-                        one.style.gridColumnStart = currColStart;
-                        one.style.gridColumnEnd = currColEnd;
-                        one.style.gridRowStart = currRowStart;
-                        one.style.gridRowEnd = currRowEnd;
-                        one.style.backgroundImage = url("./drogo.png");
-                        one.style.backgroundColor = "grey";
-                } */
+                /*                 function onMouseMove(e) {
+                                        var x = e.clientX;
+                                        var y = e.clientY;
+                                        var currColStart = Math.floor(x / 50) + 1;
+                                        var currColEnd = currColStart + 1;
+                                        var currRowStart = Math.floor(y / 50) + 1;
+                                        var currRowEnd = currRowStart + 1;
+                
+                                        var one = document.getElementById("one");
+                                        one.style.gridColumnStart = currColStart;
+                                        one.style.gridColumnEnd = currColEnd;
+                                        one.style.gridRowStart = currRowStart;
+                                        one.style.gridRowEnd = currRowEnd;
+                                        one.style.backgroundImage = url("./drogo.png");
+                                        one.style.backgroundColor = "grey";
+                                } */
 
                 function getScore(stepsMoved) {
                         var dflt = 100, diff = 0;
                         stepsMoved >= shortestPath ? diff = stepsMoved - shortestPath : 0;
                         var prgrss = dflt - (diff * 10);
                         prgrss >= 0 ? score = score + prgrss : "";
-                        if(score > 500 && score <= 1000){
+                        if (score > 500 && score <= 1000) {
                                 level = "II";
                                 document.getElementById("lvl").innerText = level;
-                        }else if(score > 1000 && score <= 1500){
+                        } else if (score > 1000 && score <= 1500) {
                                 level = "III";
                                 document.getElementById("lvl").innerText = level;
-                        }else if(score > 1500  && score <= 2000){
+                        } else if (score > 1500 && score <= 2000) {
                                 level = "IV";
                                 document.getElementById("lvl").innerText = level;
-                        }else if(score > 2000){
+                        } else if (score > 2000) {
                                 level = "V";
                                 document.getElementById("lvl").innerText = level;
                         }
-/*                         switch(score){
-                                //console.log(">>>>>>>>>>>>>>>>>>>> ", score);
-                                case score > 600:
-                                console.log(">>>>>>>>>>>>>>>>>>>> ", score);
-                                        
-                                        break;
-                                case score > 1000:
-                                        
-                                        break;
-                                case score > 1500:
-                                        
-                                        break;
-                        } */
+                        /*                         switch(score){
+                                                        //console.log(">>>>>>>>>>>>>>>>>>>> ", score);
+                                                        case score > 600:
+                                                        console.log(">>>>>>>>>>>>>>>>>>>> ", score);
+                                                                
+                                                                break;
+                                                        case score > 1000:
+                                                                
+                                                                break;
+                                                        case score > 1500:
+                                                                
+                                                                break;
+                                                } */
                         /* console.log("///// progress ////  stepsMoved = " + stepsMoved + "  shortestPath = " + shortestPath + "  progress = " + prgrss + "  score = " + score); */
                         return score;
                 }
@@ -287,7 +303,7 @@
                         }, lvl_config[level]);
                 }
 
-                function dirClick(dir){
+                function dirClick(dir) {
                         var one = document.getElementById("one");
                         var currColStart = one.style.gridColumnStart;
                         var currRowStart = one.style.gridRowStart;
