@@ -2,6 +2,7 @@
 
 <head>
         <link rel="manifest" href="/snak-game/manifest.json">
+        <link href="https://fonts.googleapis.com/css?family=Dosis&display=swap" rel="stylesheet">
         <meta charset="utf-8">
         <meta name="theme-color" content="#db5945">
         <title>Snak Game</title>
@@ -27,21 +28,6 @@
                         height: 1cm;
                 }
 
-                /*                 #controls{
-                        position: fixed;
-                        bottom: 0;
-                        left: 0;
-                        right: 0;
-                        height: 1.6cm;
-                        display: flex;
-                        justify-content: space-around;
-                }
-
-                #controls button{
-                        width: 80px;
-                        height: 1.5cm;
-                } */
-
                 #main {
                         position: fixed;
                         top: 1cm;
@@ -53,12 +39,9 @@
                 }
 
                 #main #top {
-                        /* position: fixed; */
-                        /* top: 20px; */
                         position: absolute;
                         height: 20%;
                         width: 100%;
-                        /* background-color: aqua; */
                         border: 1px solid gray;
                 }
 
@@ -68,7 +51,6 @@
                         width: 50%;
                         display: inline;
                         height: 60%;
-                        /* background-color:blue; */
                         border: 1px solid gray;
                 }
 
@@ -79,7 +61,6 @@
                         height: 60%;
                         top: 20%;
                         left: 50%;
-                        /* background-color:crimson; */
                         border: 1px solid gray;
                 }
 
@@ -87,7 +68,6 @@
                         position: absolute;
                         height: 20%;
                         width: 100%;
-                        /* background-color:darkgreen; */
                         border: 1px solid gray;
                         top: 80%;
                 }
@@ -101,12 +81,37 @@
                         background-image: url("./egg.png");
                         background-size: contain;
                 }
+
+                #overlay #ovrly-cntnt {
+                        position: absolute;
+                        /* top: 20%; */
+                        align-items: center;
+                        width: 100%;
+                        height: 100%;
+                        /* background-color: #d3d3d3; */
+                        top: 0;
+                        left: 0;
+                        font-size: 2em;
+                        opacity: 1;
+                        font-family: 'Dosis', sans-serif;
+                }
+
+                #overlay #bckgrnd {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        opacity: 0.8;
+                        width: 100%;
+                        height: 100%;
+                        background-color: aqua;
+                }
         </style>
 </head>
 
 <!-- <body onmousemove="onMouseMove(event)" onkeydown="onKeyDown(event)"> -->
 
 <body onkeydown="onKeyDown(event)">
+
         <div id="panel">
                 <h3>Score : </h3>&nbsp;<h3 id="score">0</h3>
                 <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Level : </h3>
@@ -120,14 +125,18 @@
                 <div id="right" onclick="dirClick('right')"></div>
                 <div id="down" onclick="dirClick('bottom')"></div>
         </div>
-        <!--         <div id="controls">
-                <button onclick="dirClick('top')">Top</button>
-                <button onclick="dirClick('left')">Left</button>
-                <button onclick="dirClick('right')">Right</button>
-                <button onclick="dirClick('bottom')">Bottom</button>
-        </div> -->
+        <div id="overlay" onclick="hideOvrly()">
+                <div id="bckgrnd"></div>
+                <div id="ovrly-cntnt">
+                        <h2>FeeD ThE DrogO</h2>
+                        <h6>tap on different sections of screen to move drogo closer to egg.</h6>
+                        <h6>the less steps drogo moves, more you score.</h6>
+                        <h6>be ready for challenges as drogo feels full</h6>
+                        <h6>tap anywhere to play</h6>
+                        <p>&#8212; m-mittal</p>
+                </div>
 
-
+        </div>
         <script>
                 window.onload = () => {
                         'use strict';
@@ -137,7 +146,11 @@
                                         .register('./serviceworker.js');
                         }
                 }
-                
+
+                function hideOvrly() {
+                        document.getElementById("overlay").style.display = "none";
+                }
+
                 var shortestPath = 0, score = 0, level = "I";
                 var lvl_config = {
                         "I": 250,
