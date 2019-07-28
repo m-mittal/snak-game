@@ -3,7 +3,9 @@ var filesToCache = [
   '/',
   '/snak-game/index.html',
   '/snak-game/drogo.png',
-  '/snak-game/egg.png'
+  '/snak-game/egg.png',
+  '/snak-game/egg-512.png',
+  '/snak-game/drogo-192.png'
 ];
 
 /* Start the service worker and cache all of the app's content */
@@ -21,11 +23,6 @@ self.addEventListener('fetch', function(e) {
 	fetch(e.request).catch(()=>{
 		return caches.match(e.request)
 	}
-	
 	)
-  
-/*    caches.match(e.request).then(function(response) {
-      return response || fetch(e.request);
-    }) */
   );
 });
