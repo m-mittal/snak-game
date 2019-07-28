@@ -1,7 +1,7 @@
 var cacheName = 'hello-pwa';
 var filesToCache = [
   '/',
-  '/index.html',
+  '/snak-game/index.html',
   '/snak-game/drogo.png',
   '/snak-game/egg.png'
 ];
