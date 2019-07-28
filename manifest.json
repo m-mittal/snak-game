@@ -1,7 +1,12 @@
 {
   "short_name": "Snak Game",
   "name": "Snak Game",
-  "icons": [], 
+  "icons": [
+  {
+    "src": "/snak-game/drogo.png",
+      "sizes": "246x261",
+      "type": "image/png"
+    }], 
   "start_url": "/snak-game/index.html",
   "background_color": "#3367D6",
   "display": "standalone",
